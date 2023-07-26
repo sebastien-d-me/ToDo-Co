@@ -1,0 +1,31 @@
+@startuml class
+left to right direction
+skinparam actorStyle Awesome
+skinparam ArrowThickness 1
+!theme aws-orange
+skinparam backgroundcolor White
+title Class
+
+
+class User {
+    {static} +id: int
+    +email: string
+    +roles: array
+    +password: string
+    +username: string
+    +created_at: date
+    +updated_at: date
+}
+
+class Task {
+    {static} +id: int
+    +title: string
+    +content: text
+    +is_done: boolean 
+    +created_at: date 
+    +updated_at: date
+}
+
+
+User "1" -- "0..*" Task: $failure("CREATE")
+@enduml

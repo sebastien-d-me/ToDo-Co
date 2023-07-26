@@ -1,0 +1,42 @@
+@startuml use_cases__tasks
+left to right direction
+skinparam actorStyle Awesome
+!theme bluegray
+skinparam backgroundcolor White
+title Use cases | Tasks
+
+
+actor "Member" as Member
+actor "Administrator" as Administrator
+Member <|- Administrator
+
+
+rectangle {
+    "«Authentication»" as (Authentification)
+
+    "See the tasks" as (SeeTasks)
+    "See a task in detail" as (SeeTaskDetails)
+
+    "Create a task" as (CreateTask)
+    "Edit tasks" as (EditTasks)
+    "Delete his tasks" as (DeleteTasks)
+    "Change task status" as (ChangeTaskStatus)
+
+    "Delete anonymous tasks" as (DeleteAnonymousTasks)
+}
+
+
+:Member: -.> (SeeTasks)
+:Member: -.> (SeeTaskDetails)
+:Member: -.> (CreateTask)
+:Member: -.> (EditTasks)
+:Member: -.> (DeleteTasks)
+:Member: -.> (ChangeTaskStatus)
+:Administrator: -.> (DeleteAnonymousTasks)
+(SeeTasks) -.> (Authentification) : include
+(SeeTaskDetails) -.> (Authentification) : include
+(CreateTask) -.> (Authentification) : include
+(EditTasks) -.> (Authentification) : include
+(DeleteTasks) -.> (Authentification) : include
+(DeleteAnonymousTasks) -.> (Authentification) : include
+@enduml
