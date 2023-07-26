@@ -1,0 +1,11 @@
+@startuml sequence__users_view
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Users : View
+
+
+System -> System : Checks if the person is connected and have the "ROLE_ADMIN"
+System --> Administrator : Show all the members
+@enduml

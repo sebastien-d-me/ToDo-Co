@@ -1,0 +1,16 @@
+@startuml sequence__users_edit
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Users : Edit
+
+
+System -> System : Checks if the person is connected and have the "ROLE_ADMIN"
+Administrator -> Administrator : Fills in the form correctly
+Administrator -> System : Click on "Sauvegarder les modifications"
+System -> System : Checks the values of the form
+System -> System : Save the new values in the database
+System -> System : Redirects to the members list page
+System --> Administrator : Displays a confirmation message
+@enduml

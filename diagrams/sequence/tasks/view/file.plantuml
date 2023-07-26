@@ -1,0 +1,11 @@
+@startuml sequence__tasks_view
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Tasks : View
+
+
+System -> System : Checks if the person is connected
+System --> Member : Show all the tasks or the details of one of them
+@enduml

@@ -1,0 +1,16 @@
+@startuml sequence__tasks_create
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Tasks : Create
+
+
+System -> System : Checks if the person is connected
+Member -> Member : Fills in the form correctly
+Member -> System : Click on "Créer la tâche"
+System -> System : Checks the values of the form
+System -> System : Save the new task in the database
+System -> System : Redirects to the home page
+System --> Member : Displays a confirmation message
+@enduml
