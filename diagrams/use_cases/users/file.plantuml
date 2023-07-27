@@ -1,0 +1,33 @@
+@startuml use_cases__users
+left to right direction
+skinparam actorStyle Awesome
+!theme bluegray
+skinparam backgroundcolor White
+title Use cases | Users
+
+
+actor "Visitor" as Visitor
+actor "Member" as Member
+actor "Administrator" as Administrator
+Member <|- Administrator
+
+
+rectangle {
+    "«Authentication»" as (Authentification)
+
+    "Register" as (Register)
+    "Login" as (Login)
+
+    "Logout" as (Logout)
+
+    "Edit members" as (EditMembers)
+}
+
+
+:Visitor: -.> (Register)
+:Visitor: -.> (Login)
+:Member: -.> (Logout)
+:Administrator: -.> (EditMembers)
+(Logout) -.> (Authentification) : include
+(EditMembers) -.> (Authentification) : include
+@enduml

@@ -1,0 +1,12 @@
+@startuml sequence__tasks_delete
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Tasks : Delete
+
+
+System -> System : Checks if the person is connected
+Member -> System : Click on "Supprimer la tâche"
+System --> Member : Displays a confirmation message
+@enduml

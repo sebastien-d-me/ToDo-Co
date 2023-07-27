@@ -1,0 +1,16 @@
+@startuml sequence__users_register
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Users : Register
+
+
+System -> System : Checks if the person is not connected
+Visitor -> Visitor : Fills in the form correctly
+Visitor -> System : Click on "M'inscrire"
+System -> System : Checks the values of the form
+System -> System : Save the new member in the database
+System -> System : Redirects to the home page
+System --> Visitor : Displays a confirmation message
+@enduml

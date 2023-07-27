@@ -1,0 +1,16 @@
+@startuml sequence__tasks_edit
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Tasks : Edit
+
+
+System -> System : Checks if the person is connected
+Member -> Member : Fills in the form correctly
+Member -> System : Click on "Sauvegarder les modifications"
+System -> System : Checks the values of the form
+System -> System : Save the new values in the database
+System -> System : Redirects to the tasks list page
+System --> Member : Displays a confirmation message
+@enduml

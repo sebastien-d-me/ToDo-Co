@@ -1,0 +1,13 @@
+@startuml sequence__users_logout
+hide footbox
+skinparam actorStyle awesome
+!theme aws-orange
+skinparam backgroundcolor White
+title Sequence | Users : Logout
+
+
+System -> System : Checks if the person is connected
+Member -> System : Click on "Se déconnecter"
+System -> System : Logout the user
+System --> Member : Displays a confirmation message
+@enduml
