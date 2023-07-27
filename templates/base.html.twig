@@ -2,17 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags("app") }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags("app") }}
-        {% endblock %}
+        <title>{% block title %}To-Do Co{% endblock %}</title>
+        {{ encore_entry_link_tags("assets") }}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav class="nav" role="navigation">
+            <a class="nav-link" href="{{ path('home') }}">To-do list app</a>
+            <img src="{{ asset('build/images/logo.webp') }}">
+        </nav>
+        {% block container %}{% endblock %}
+
+        {{ encore_entry_script_tags("assets") }}
     </body>
 </html>

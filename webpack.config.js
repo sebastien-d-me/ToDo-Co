@@ -7,7 +7,11 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath("public/build/")
     .setPublicPath("/build")
-    .addEntry("app", "./assets/app.js")
+    .addEntry("assets", "./assets/scripts/script.js")
+    .copyFiles({
+        from: "./assets/images",
+        to: "images/[path][name].[ext]",
+    })
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
