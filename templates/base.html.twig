@@ -6,11 +6,30 @@
         {{ encore_entry_link_tags("assets") }}
     </head>
     <body>
-        <nav class="nav" role="navigation">
-            <a class="nav-link" href="{{ path('home') }}">To-do list app</a>
-            <img src="{{ asset('build/images/logo.webp') }}">
+        <nav class="bg-blue-50 navbar" role="navigation">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('home') }}">
+                    <img alt="Logo" class="align-text-center d-inline-block" loading="lazy" src="{{ asset('build/images/logo.webp') }}">
+                    <span>To-do list app</span>
+                </a>
+            </div>    
         </nav>
-        {% block container %}{% endblock %}
+
+        <div class="container">
+            {% block main %}{% endblock %}
+            <div class="divider"></div>
+        </div>
+
+        <footer>
+            <div class="container">
+                <div class="justify-content-end row">
+                    <div class="col-3">
+                        <span>Copyright &copy; OpenClassrooms
+                    </div>
+                </div>
+            </div>
+        </footer>
+
 
         {{ encore_entry_script_tags("assets") }}
     </body>
