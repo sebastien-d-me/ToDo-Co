@@ -3,5 +3,43 @@
 
 
 {% block main %}
-    Def
+    <div class="mt-2 row">
+        <div class="col-12">
+            <button class="btn btn-primary" type="button">Créer un utilisateur</button>
+        </div>
+    </div>
+
+    <div class="mt-2 row">
+        <div class="col-12">
+            <img alt="Bannière" class="w-100" loading="lazy" src="{{ asset('build/images/banner/full_banner.webp') }}">
+        </div>
+    </div>
+
+    <form class="align-items-center mt-3 row row-cols-lg-auto">
+        <div class="col-12">
+            <div class="align-items-center row">
+                <div class="col-auto">
+                    <label class="form-label fw-bold" for="login_username">Nom d'utilisateur :</label>
+                </div>
+                <div class="col-auto">
+                    <input class="form-control" id="login_username" type="text">
+                </div>
+            </div>
+        </div>
+          
+        <div class="col-12">
+            <div class="align-items-center row">
+                <div class="col-auto">
+                    <label class="form-label fw-bold" for="login_password">Mot de passe :</label>
+                </div>
+                <div class="col-auto">
+                    <input class="form-control" id="login_password" type="password">
+                </div>
+            </div>
+        </div>
+                    
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Se connecter</button>
+        </div>
+    </form>
 {% endblock %}

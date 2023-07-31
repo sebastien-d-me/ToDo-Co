@@ -1,20 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
-// Variables
-:root {
-    --blue-50: #E3F2FD;
-    --light-grey: #EEEEEE;
-}
-
 
 // Backgrounds
 .bg-blue-50 {
-    background-color: var(--blue-50);
+    background-color: $blue-100;
 }
 
 // Divider
 .divider {
-    background-color: var(--light-grey);
+    background-color: $gray-300;
     margin: 15px 0 30px 0;
     height: 1px;
     width: 100%;
