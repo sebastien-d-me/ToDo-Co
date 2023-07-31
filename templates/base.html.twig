@@ -19,6 +19,23 @@
         </header>
 
         <div class="container">
+            <div class="justify-content-between mt-2 row">
+                <div class="col-auto">
+                    <a href="{{ path('user_create') }}">
+                        <button class="btn btn-primary" type="button">Créer un utilisateur</button>
+                    </a>
+                </div>
+                {% if app.user %}
+                    <div class="col-auto mt-2 mt-md-0">
+                        <a href="#">
+                            <button class="btn btn-danger" type="button">Se déconnecter</button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mt-2 row">
+                <h1 class="fs-3">{{ pageTitle }}</h1>
+            </div>
             {% block main %}{% endblock %}
             <div class="divider"></div>
         </div>

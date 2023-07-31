@@ -16,9 +16,9 @@ class HomeController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         
         return $this->render("pages/index.html.twig", [
-            "controller_name" => "LoginController",
-            "last_username" => $lastUsername,
+            "controller_name" => "HomeController",
             "error" => $error,
+            "last_username" => $lastUsername
         ]);
     }
 }
