@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -49,6 +50,18 @@ class UserType extends AbstractType
             "label" => "Adresse email", 
             "label_attr" => ["class" => "form-label fw-bold"],
             "required" => true,
+            "row_attr" => ["class" => "mt-2"]
+        ]);
+
+        $builder->add('role', ChoiceType::class, [
+            "attr" => ["class" => "form-select"],
+            "choices"  => [
+                "Utilisateur" => "ROLE_USER",
+                "Administrateur" => "ROLE_ADMIN"
+            ],
+            "label" => "Rôle", 
+            "label_attr" => ["class" => "form-label fw-bold"],
+            "mapped" => false,
             "row_attr" => ["class" => "mt-2"]
         ]);
 

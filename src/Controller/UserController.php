@@ -33,9 +33,11 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $role = $form->get("role")->getData();
             $password = $userPasswordHasher->hashPassword($user, $form->get("password")->getData());
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
+            $user->setRoles([$role]);
             $user->setPassword($password);
             $user->setCreatedAt($currentDate);
             $user->setUpdatedAt($currentDate);
