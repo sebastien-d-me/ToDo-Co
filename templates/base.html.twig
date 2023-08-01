@@ -1,3 +1,6 @@
+{% set route_name = app.request.attributes.get("_route") %}
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,14 +22,21 @@
         </header>
 
         <div class="container">
-            <div class="justify-content-between mt-2 row">
+            <div class="mt-3 row">
                 <div class="col-auto">
                     <a href="{{ path('user_create') }}">
                         <button class="btn btn-primary" type="button">Créer un utilisateur</button>
                     </a>
                 </div>
+                {% if route_name != "home" %}
+                    <div class="col-auto">
+                        <a href="#">
+                            <button class="btn btn-success" type="button">Se connecter</button>
+                        </a>
+                    </div>
+                {% endif %}
                 {% if app.user %}
-                    <div class="col-auto mt-2 mt-md-0">
+                    <div class="col-auto ms-auto mt-2 mt-md-0">
                         <a href="#">
                             <button class="btn btn-danger" type="button">Se déconnecter</button>
                         </a>
