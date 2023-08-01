@@ -23,14 +23,16 @@
 
         <div class="container">
             <div class="mt-3 row">
+                {% if route_name != "users_create" %}
                 <div class="col-auto">
                     <a href="{{ path('users_create') }}">
                         <button class="btn btn-primary" type="button">Créer un utilisateur</button>
                     </a>
                 </div>
+                {% endif %}
                 {% if route_name != "home" %}
                     <div class="col-auto">
-                        <a href="#">
+                        <a href="{{ path('home') }}">
                             <button class="btn btn-success" type="button">Se connecter</button>
                         </a>
                     </div>
@@ -43,6 +45,7 @@
                     </div>
                 {% endif %}
             </div>
+
             {% for label, messages in app.flashes %}
                 <div class="mt-2 row">
                     {% for message in messages %}
@@ -59,9 +62,13 @@
                     {% endfor %}
                 </div>
             {% endfor %}
-            <div class="mt-2 row">
-                <h1 class="fs-3">{{ pageTitle }}</h1>
+
+            {% if pageTitle != "" %}
+            <div class="mt-3 row">
+                <h1 class="fs-3 mb-3">{{ pageTitle }}</h1>
             </div>
+            {% endif %}
+
             {% block main %}{% endblock %}
             <div class="divider"></div>
         </div>
