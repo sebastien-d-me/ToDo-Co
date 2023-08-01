@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route("/users", name: "users_list")]
-    public function list(): Response
+    public function list(UserRepository $userRepository): Response
     {
-        $users = "";
+        $users = $userRepository->findAll();
 
         return $this->render("pages/users/list.html.twig", [
             "users" => $users
