@@ -20,7 +20,7 @@ class UserType extends AbstractType
             "attr" => ["class" => "form-control"],
             "label" => "Nom d'utilisateur", 
             "label_attr" => ["class" => "form-label fw-bold"],
-            "required" => true,   
+            "required" => true
         ]);
 
         $builder->add("password", RepeatedType::class, [
@@ -41,7 +41,7 @@ class UserType extends AbstractType
                 "label_attr" => ["class" => "form-label fw-bold"],
                 "row_attr" => ["class" => "mt-2"]
             ],
-            "type" => PasswordType::class,
+            "type" => PasswordType::class
         ]);
 
         $builder->add("email", EmailType::class, [
@@ -55,7 +55,7 @@ class UserType extends AbstractType
         $builder->add("save", SubmitType::class, [
             "attr" => ["class" => "btn btn-success"],
             "label" => "Ajouter",
-            "row_attr" => ["class" => "d-flex justify-content-end mt-3"],
+            "row_attr" => ["class" => "d-flex justify-content-end mt-3"]
         ]);
     }
 
