@@ -26,12 +26,12 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container px-0">
             {% for row in tasks | batch(3) %}
-                <div class="row">
+                <div class="mb-4 row">
                     {% for task in row %}
-                        <div class="col-lg-4 col-md-12 g-4" id="{{ loop.index }}">
-                            <div class="img-thumbnail">
+                        <div class="col-lg-4 col-md-12" id="{{ loop.index }}">
+                            <div class="img-thumbnail h-75 overflow-auto">
                                 <div class="d-flex justify-content-between">
                                     <a class="fs-5 text-decoration-none" href="#">
                                         <span>{{ task.title }}</span>
@@ -46,10 +46,10 @@
                                         </a>
                                     {% endif %}
                                 </div>
-                                <p>{{ task.content }}</p>
+                                <p class="mb-2 mt-4">{{ task.content }}</p>
                             </div>
-                            <div class="row">
-                                <div class="col-auto">
+                            <div class="d-flex h-25 justify-content-end mt-1 row">
+                                <div class="col-3">
                                     <a href="#">
                                         <button class="btn btn-danger">Supprimer</button>
                                     </a>
