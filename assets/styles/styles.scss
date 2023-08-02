@@ -13,3 +13,9 @@
     height: 1px;
     width: 100%;
 }
+
+// Form
+label.required::after {
+    color: $red-500;
+    content: " *";
+}

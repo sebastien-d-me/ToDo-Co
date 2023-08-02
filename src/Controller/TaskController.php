@@ -12,12 +12,27 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    #[Route("/tasks", name: "tasks_list")]
-    public function list(TaskRepository $taskRepository): Response
+    #[Route("/tasks", name: "tasks_list_uncompleted")]
+    public function listUncompleted(TaskRepository $taskRepository): Response
     {
-        $tasksList = $taskRepository->findAll();
+        $tasksList = $taskRepository->findBy([
+            "isDone" => false
+        ]);
 
-        return $this->render("pages/tasks/list.html.twig", [
+        return $this->render("pages/tasks/list_uncompleted.html.twig", [
+            "tasks" => $tasksList
+        ]);
+    }
+
+
+    #[Route("/tasks/done", name: "tasks_list_completed")]
+    public function listCompleted(TaskRepository $taskRepository): Response
+    {
+        $tasksList = $taskRepository->findBy([
+            "isDone" => true
+        ]);
+
+        return $this->render("pages/tasks/list_completed.html.twig", [
             "tasks" => $tasksList
         ]);
     }
