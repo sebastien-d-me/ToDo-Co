@@ -53,21 +53,22 @@ class UserType extends AbstractType
             "row_attr" => ["class" => "mt-2"]
         ]);
 
-        $builder->add('role', ChoiceType::class, [
+        $builder->add("role", ChoiceType::class, [
             "attr" => ["class" => "form-select"],
             "choices"  => [
                 "Utilisateur" => "ROLE_USER",
                 "Administrateur" => "ROLE_ADMIN"
             ],
+            "data" => $options["data"]->getRoles()[0] ?? "ROLE_USER",
             "label" => "Rôle", 
             "label_attr" => ["class" => "form-label fw-bold"],
             "mapped" => false,
-            "row_attr" => ["class" => "mt-2"]
+            "row_attr" => ["class" => "mt-2"],
         ]);
 
         $builder->add("save", SubmitType::class, [
             "attr" => ["class" => "btn btn-success"],
-            "label" => "Ajouter",
+            "label" => "Sauvegarder",
             "row_attr" => ["class" => "d-flex justify-content-end mt-3"]
         ]);
     }

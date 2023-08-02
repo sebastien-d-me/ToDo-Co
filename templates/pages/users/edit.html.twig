@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+{% block title %}Modifier un nouvel utilisateur{% endblock %}
+{% set pageTitle = "Modifier " ~ user.username %}
+
+
+{% block main %}   
+    {{ form(form) }}
+{% endblock %}

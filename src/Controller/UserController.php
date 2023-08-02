@@ -11,19 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
     #[Route("/users", name: "users_list")]
+    #[IsGranted("ROLE_ADMIN", message: "Vous n'avez pas les droits pour accéder à cette page.")]
     public function list(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
-
-        $userRoles = $this->getUser()->getRoles();
-        if(!in_array("ROLE_ADMIN", $userRoles)) {
-            return $this->redirectToRoute("home");
-        }
-        
         $usersList = $userRepository->findAll();
 
         return $this->render("pages/users/list.html.twig", [
@@ -64,10 +59,28 @@ class UserController extends AbstractController
 
 
     #[Route("/users/{userID}/edit", name: "users_edit")]
+    #[IsGranted("ROLE_ADMIN", message: "Vous n'avez pas les droits pour accéder à cette page.")]
     public function edit(EntityManagerInterface $entityManager, Request $request, int $userID, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
-        $user = $userRepository->findBy(["id" => $userID]);
+        $user = $userRepository->findOneBy(["id" => $userID]);
         $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $role = $form->get("role")->getData();
+            $password = $userPasswordHasher->hashPassword($user, $form->get("password")->getData());
+            $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+
+            $user->setRoles([$role]);
+            $user->setPassword($password);
+            $user->setUpdatedAt($currentDate);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash("success", "L'utilisateur a bien été modifié.");
+            return $this->redirectToRoute("users_list");
+        }
 
         return $this->render("pages/users/edit.html.twig", [
             "form" => $form,
