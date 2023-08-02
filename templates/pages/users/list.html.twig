@@ -28,7 +28,7 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <a href="#">
+                        <a href="{{ path('users_edit', {'userID': user.id}) }}">
                             <button class="btn btn-success">Modifier</button>
                         </a>
                     </td>

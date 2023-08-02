@@ -44,7 +44,7 @@
                         </a>
                     </div>
                 {% endif %}
-                {% if route_name != "users_list" and app.user %}
+                {% if route_name != "users_list" and app.user and is_granted("ROLE_ADMIN") %}
                     <div class="col-auto">
                         <a href="{{ path('users_list') }}">
                             <button class="btn btn-info" type="button">Liste des utilisateurs</button>

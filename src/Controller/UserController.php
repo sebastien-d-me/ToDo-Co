@@ -17,10 +17,17 @@ class UserController extends AbstractController
     #[Route("/users", name: "users_list")]
     public function list(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
+        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
+
+        $userRoles = $this->getUser()->getRoles();
+        if(!in_array("ROLE_ADMIN", $userRoles)) {
+            return $this->redirectToRoute("home");
+        }
+        
+        $usersList = $userRepository->findAll();
 
         return $this->render("pages/users/list.html.twig", [
-            "users" => $users
+            "users" => $usersList
         ]);
     }
 
@@ -52,6 +59,19 @@ class UserController extends AbstractController
 
         return $this->render("pages/users/create.html.twig", [
             "form" => $form,
+        ]);
+    }
+
+
+    #[Route("/users/{userID}/edit", name: "users_edit")]
+    public function edit(EntityManagerInterface $entityManager, Request $request, int $userID, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->findBy(["id" => $userID]);
+        $form = $this->createForm(UserType::class, $user);
+
+        return $this->render("pages/users/edit.html.twig", [
+            "form" => $form,
+            "user" => $user
         ]);
     }
 }
