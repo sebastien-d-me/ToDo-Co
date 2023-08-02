@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+{% block title %}Liste des tâches{% endblock %}
+{% set pageTitle = "" %}
+
+
+{% block main %}
+    <div class="mt-2 row">
+        <div class="col-12">
+            <img alt="Bannière" class="w-100" loading="lazy" src="{{ asset('build/images/banner/small_banner.webp') }}">
+        </div>
+    </div>
+
+    {% if tasks | length == 0 %} 
+        <div class="alert alert-warning" role="alert">
+            <span>Il n'y a pas encore de tâche enregistrée.</span>
+            <a href="#">
+                <button class="btn btn-warning">Créer une tâche.</button>
+            </a>
+        </div>
+    {% else %}
+        <div class="">
+            <a href="#">
+                <button class="btn btn-info text-light">Créer une tâche.</button>
+            </a>
+        </div>
+
+        {% for task in tasks %}
+            <div id="{{ loop.index }}">
+                <div class="">
+                    <div class="">
+                        <a href="#">
+                            <span>{{ task.title }}</span>
+                        </a>
+                        <span>ICON</span>
+                    </div>
+                    <p>{{ task.content }}</p>
+                </div>
+                <div class="">
+                    <a href="#">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </a>
+                    <a href="#">
+                        <button class="btn btn-success">Marquer comme faite</button>
+                    </a>
+                    <a href="#">
+                        <button class="btn btn-success">Marquer non terminée</button>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
