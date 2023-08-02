@@ -14,14 +14,14 @@
         <div class="alert alert-warning mt-2" role="alert">
             <span>Il n'y a pas encore de tâche enregistrée.</span>
             <a href="#">
-                <button class="btn btn-warning">Créer une tâche.</button>
+                <button class="btn btn-warning">Créer une tâche</button>
             </a>
         </div>
     {% else %}
         <div class="row">
             <div class="col-auto mb-2 ms-auto mt-2">
                 <a href="#">
-                    <button class="btn btn-info text-light">Créer une tâche.</button>
+                    <button class="btn btn-info text-light">Créer une tâche</button>
                 </a>
             </div>
         </div>
@@ -31,20 +31,14 @@
                 <div class="mb-4 row">
                     {% for task in row %}
                         <div class="col-lg-4 col-md-12" id="{{ loop.index }}">
-                            <div class="img-thumbnail h-75 overflow-auto">
+                            <div class="img-thumbnail h-75 overflow-auto p-2">
                                 <div class="d-flex justify-content-between">
                                     <a class="fs-5 text-decoration-none" href="#">
                                         <span>{{ task.title }}</span>
                                     </a>
-                                    {% if task.isDone != true %}
-                                        <a class="fs-5 fw-bold text-dark text-decoration-none" href="#">
-                                            <span>✓</span>
-                                        </a>
-                                    {% else %}
-                                        <a class="fs-5 fw-bold text-dark text-decoration-none" href="#">
-                                            <span>✗</span>
-                                        </a>
-                                    {% endif %}
+                                    <a class="fs-5 fw-bold text-dark text-decoration-none" href="#">
+                                        <span>✗</span>
+                                    </a>
                                 </div>
                                 <p class="mb-2 mt-4">{{ task.content }}</p>
                             </div>
@@ -54,19 +48,11 @@
                                         <button class="btn btn-danger">Supprimer</button>
                                     </a>
                                 </div>
-                                {% if task.isDone != true %}
-                                    <div class="col-auto">
-                                        <a href="#">
-                                            <button class="btn btn-success">Marquer comme faite</button>
-                                        </a>
-                                    </div>
-                                {% else %}
-                                    <div class="col-auto">
-                                        <a href="#">
-                                            <button class="btn btn-success">Marquer non terminée</button>
-                                        </a>
-                                    </div>
-                                {% endif %}
+                                <div class="col-auto">
+                                    <a href="{{ path('tasks_uncompleted', {'taskId': task.id}) }}">
+                                        <button class="btn btn-success">Marquer non terminée</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}

@@ -36,4 +36,32 @@ class TaskController extends AbstractController
             "tasks" => $tasksList
         ]);
     }
+
+
+    #[Route("/tasks/{taskId}/completed", name: "tasks_completed")]
+    public function completed(EntityManagerInterface $entityManager, int $taskId, TaskRepository $taskRepository): Response
+    {
+        $task = $taskRepository->findOneBy(["id" => $taskId]);
+        $task->setIsDone(true);
+
+        $entityManager->persist($task);
+        $entityManager->flush();
+        
+        $this->addFlash("success", "La tâche ".$task->getTitle()." a bien été marquée comme faite.");
+        return $this->redirectToRoute("tasks_list_uncompleted");
+    }
+
+
+    #[Route("/tasks/{taskId}/uncompleted", name: "tasks_uncompleted")]
+    public function uncompleted(EntityManagerInterface $entityManager, int $taskId, TaskRepository $taskRepository): Response
+    {
+        $task = $taskRepository->findOneBy(["id" => $taskId]);
+        $task->setIsDone(false);
+
+        $entityManager->persist($task);
+        $entityManager->flush();
+        
+        $this->addFlash("success", "La tâche ".$task->getTitle()." a bien été marquée comme non faite.");
+        return $this->redirectToRoute("tasks_list_completed");
+    }
 }

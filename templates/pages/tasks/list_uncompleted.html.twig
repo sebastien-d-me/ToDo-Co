@@ -14,14 +14,14 @@
         <div class="alert alert-warning mt-2" role="alert">
             <span>Il n'y a pas encore de tâche enregistrée.</span>
             <a href="#">
-                <button class="btn btn-warning">Créer une tâche.</button>
+                <button class="btn btn-warning">Créer une tâche</button>
             </a>
         </div>
     {% else %}
         <div class="row">
             <div class="col-auto mb-2 ms-auto mt-2">
                 <a href="#">
-                    <button class="btn btn-info text-light">Créer une tâche.</button>
+                    <button class="btn btn-info text-light">Créer une tâche</button>
                 </a>
             </div>
         </div>
@@ -55,7 +55,7 @@
                                     </a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="#">
+                                    <a href="{{ path('tasks_completed', {'taskId': task.id}) }}">
                                         <button class="btn btn-success">Marquer comme faite</button>
                                     </a>
                                 </div>
