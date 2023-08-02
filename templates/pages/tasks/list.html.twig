@@ -11,42 +11,67 @@
     </div>
 
     {% if tasks | length == 0 %} 
-        <div class="alert alert-warning" role="alert">
+        <div class="alert alert-warning mt-2" role="alert">
             <span>Il n'y a pas encore de tâche enregistrée.</span>
             <a href="#">
                 <button class="btn btn-warning">Créer une tâche.</button>
             </a>
         </div>
     {% else %}
-        <div class="">
-            <a href="#">
-                <button class="btn btn-info text-light">Créer une tâche.</button>
-            </a>
+        <div class="row">
+            <div class="col-auto mb-2 ms-auto mt-2">
+                <a href="#">
+                    <button class="btn btn-info text-light">Créer une tâche.</button>
+                </a>
+            </div>
         </div>
 
-        {% for task in tasks %}
-            <div id="{{ loop.index }}">
-                <div class="">
-                    <div class="">
-                        <a href="#">
-                            <span>{{ task.title }}</span>
-                        </a>
-                        <span>ICON</span>
-                    </div>
-                    <p>{{ task.content }}</p>
+        <div class="container">
+            {% for row in tasks | batch(3) %}
+                <div class="row">
+                    {% for task in row %}
+                        <div class="col-lg-4 col-md-12 g-4" id="{{ loop.index }}">
+                            <div class="img-thumbnail">
+                                <div class="d-flex justify-content-between">
+                                    <a class="fs-5 text-decoration-none" href="#">
+                                        <span>{{ task.title }}</span>
+                                    </a>
+                                    {% if task.isDone != true %}
+                                        <a class="fs-5 fw-bold text-dark text-decoration-none" href="#">
+                                            <span>✓</span>
+                                        </a>
+                                    {% else %}
+                                        <a class="fs-5 fw-bold text-dark text-decoration-none" href="#">
+                                            <span>✗</span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <p>{{ task.content }}</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <a href="#">
+                                        <button class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </div>
+                                {% if task.isDone != true %}
+                                    <div class="col-auto">
+                                        <a href="#">
+                                            <button class="btn btn-success">Marquer comme faite</button>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="col-auto">
+                                        <a href="#">
+                                            <button class="btn btn-success">Marquer non terminée</button>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="">
-                    <a href="#">
-                        <button class="btn btn-danger">Supprimer</button>
-                    </a>
-                    <a href="#">
-                        <button class="btn btn-success">Marquer comme faite</button>
-                    </a>
-                    <a href="#">
-                        <button class="btn btn-success">Marquer non terminée</button>
-                    </a>
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}

@@ -26,7 +26,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
             $user = $manager->getRepository(User::class)->findOneBy([
                 "id" => $faker->numberBetween(1, 25)
             ]);
-            $title = $faker->sentence(3);
+            $title = rtrim($faker->sentence(3), ".");
             $content = $faker->paragraph();
             $isDone = $faker->boolean();
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $faker->date("Y-m-d H:i:s"));
