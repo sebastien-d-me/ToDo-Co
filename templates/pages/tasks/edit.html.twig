@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+{% block title %}Modifier une tâche{% endblock %}
+{% set pageTitle = "" %}
+
+
+{% block main %}   
+    <div class="mt-2 row">
+        <div class="col-12">
+            <img alt="Bannière" class="w-100" loading="lazy" src="{{ asset('build/images/banner/large_banner.webp') }}">
+        </div>
+    </div>
+
+    {{ form(form) }}
+{% endblock %}
