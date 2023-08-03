@@ -21,15 +21,37 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    public function findByUncompleted()
+    {
+        return $this->createQueryBuilder("t")
+            ->where("t.isDone = :isDone")
+            ->setParameter("isDone", false)
+            ->orderBy("t.updatedAt", "DESC")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByCompleted()
+    {
+        return $this->createQueryBuilder("t")
+            ->where("t.isDone = :isDone")
+            ->setParameter("isDone", true)
+            ->orderBy("t.updatedAt", "DESC")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
+//        return $this->createQueryBuilder("t")
+//            ->andWhere("t.exampleField = :val")
+//            ->setParameter("val", $value)
+//            ->orderBy("t.id", "ASC")
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
@@ -38,9 +60,9 @@ class TaskRepository extends ServiceEntityRepository
 
 //    public function findOneBySomeField($value): ?Task
 //    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
+//        return $this->createQueryBuilder("t")
+//            ->andWhere("t.exampleField = :val")
+//            ->setParameter("val", $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
 //        ;
