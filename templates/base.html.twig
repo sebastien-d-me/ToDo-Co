@@ -50,6 +50,8 @@
                             <button class="btn btn-info" type="button">Liste des utilisateurs</button>
                         </a>
                     </div>
+                {% endif %}
+                {% if app.user %}
                     <div class="col-auto ms-auto mt-2 mt-md-0">
                         <a href="{{ path('logout') }}">
                             <button class="btn btn-danger" type="button">Se déconnecter</button>
