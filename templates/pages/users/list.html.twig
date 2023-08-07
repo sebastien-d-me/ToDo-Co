@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{% block title %}Liste des utilisateurs{% endblock %}
+{% set pageTitle = "Liste des utilisateurs" %}
+
+
+{% block main %}
+    {% if users | length == 0 %} 
+        <div class="alert alert-warning" role="alert">
+            <span>Il n'y a pas encore d'utilisateur enregistré.</span>
+            <a href="{{ path('users_create') }}">
+                <button class="btn btn-warning">Créer un utilisateur</button>
+            </a>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom d'utilisateur</th>
+                    <th scope="col">Adresse d'utilisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a href="{{ path('users_edit', {'userID': user.id}) }}">
+                                <button class="btn btn-success">Modifier</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
