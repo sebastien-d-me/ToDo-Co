@@ -30,13 +30,15 @@
                         </a>
                     </div>
                 {% endif %}
+
                 {% if route_name != "users_create" %}
-                <div class="col-auto">
-                    <a href="{{ path('users_create') }}">
-                        <button class="btn btn-primary" type="button">Créer un utilisateur</button>
-                    </a>
-                </div>
+                    <div class="col-auto">
+                        <a href="{{ path('users_create') }}">
+                            <button class="btn btn-primary" type="button">Créer un utilisateur</button>
+                        </a>
+                    </div>
                 {% endif %}
+
                 {% if route_name != "home" and not app.user %}
                     <div class="col-auto">
                         <a href="{{ path('home') }}">
@@ -44,6 +46,7 @@
                         </a>
                     </div>
                 {% endif %}
+
                 {% if route_name != "users_list" and app.user and is_granted("ROLE_ADMIN") %}
                     <div class="col-auto">
                         <a href="{{ path('users_list') }}">
@@ -51,6 +54,7 @@
                         </a>
                     </div>
                 {% endif %}
+
                 {% if app.user %}
                     <div class="col-auto ms-auto mt-2 mt-md-0">
                         <a href="{{ path('logout') }}">
