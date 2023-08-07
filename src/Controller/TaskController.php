@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TaskController extends AbstractController
 {
     #[Route("/tasks", name: "tasks_list_uncompleted")]
+    #[IsGranted("ROLE_USER", message: "Vous n'avez pas les droits pour accéder à cette page.")]
     public function listUncompleted(TaskRepository $taskRepository): Response
     {
         $tasksList = $taskRepository->findByUncompleted();
@@ -26,6 +27,7 @@ class TaskController extends AbstractController
 
 
     #[Route("/tasks/done", name: "tasks_list_completed")]
+    #[IsGranted("ROLE_USER", message: "Vous n'avez pas les droits pour accéder à cette page.")]
     public function listCompleted(TaskRepository $taskRepository): Response
     {
         $tasksList = $taskRepository->findByCompleted();
@@ -67,7 +69,7 @@ class TaskController extends AbstractController
     }
 
 
-    #[Route("/tasks/{taskId}/edit/{type}", name: "tasks_edit")]
+    #[Route("/tasks/edit/{taskId}/{type}", name: "tasks_edit")]
     #[IsGranted("ROLE_USER", message: "Vous n'avez pas les droits pour accéder à cette page.")]
     public function edit(EntityManagerInterface $entityManager, Request $request, int $taskId, TaskRepository $taskRepository, string $type): Response
     {
@@ -133,7 +135,19 @@ class TaskController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, int $taskId, TaskRepository $taskRepository, string $type)
     {
         $task = $taskRepository->findOneBy(["id" => $taskId]);
-        
+
+        if(!$this->isGranted("ROLE_ADMIN")) {
+            if($this->getUser() !== $task->getUser()) {
+                $this->addFlash("danger", "Vous n'avez pas les droits pour supprimer cette tâche.");
+
+                if($type === "completed") {
+                    return $this->redirectToRoute("tasks_list_completed");
+                } else {
+                    return $this->redirectToRoute("tasks_list_uncompleted");
+                }
+            }
+        }
+
         $entityManager->remove($task);
         $entityManager->flush();
 

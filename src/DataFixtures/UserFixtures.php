@@ -19,16 +19,6 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        $user = new User();    
-        $user->setEmail("anonymous@todoco.com");
-        $user->setRoles(["ROLE_USER"]);
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, "anonymous123"));
-        $user->setUsername("anonymous");
-        $user->setCreatedAt(\DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("1900-01-01 00:00:00")));
-        $user->setUpdatedAt(\DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("1900-01-01 00:00:00")));
-
-        $manager->persist($user);
-
         for ($users = 0; $users < 25; $users++) { 
             $username = $faker->userName();
             $email = $username."@".$faker->freeEmailDomain();;

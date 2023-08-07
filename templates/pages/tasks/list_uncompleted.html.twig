@@ -51,11 +51,13 @@
                                 <p class="mb-2 mt-4">{{ task.content }}</p>
                             </div>
                             <div class="d-flex h-25 justify-content-end mt-1 row">
-                                <div class="col-3">
-                                    <a href="{{ path('tasks_delete', {'taskId': task.id, 'type': 'uncompleted'}) }}">
-                                        <button class="btn btn-danger">Supprimer</button>
-                                    </a>
-                                </div>
+                                {% if app.user == task.user or is_granted("ROLE_ADMIN") %}
+                                    <div class="col-3">
+                                        <a href="{{ path('tasks_delete', {'taskId': task.id, 'type': 'uncompleted'}) }}">
+                                            <button class="btn btn-danger">Supprimer</button>
+                                        </a>
+                                    </div>
+                                {% endif %}
                                 <div class="col-auto">
                                     <a href="{{ path('tasks_completed', {'taskId': task.id}) }}">
                                         <button class="btn btn-success">Marquer comme faite</button>

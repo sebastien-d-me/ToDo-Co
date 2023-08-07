@@ -27,10 +27,6 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         for ($tasks = 0; $tasks < 25; $tasks++) { 
             $randomUser = $users[array_rand($users)];
 
-            $userAnonymous = $manager->getRepository(User::class)->findOneBy([
-                "username" => "anonymous"
-            ]);
-
             $title = rtrim($faker->sentence(3), ".");
             $content = $faker->paragraph();
             $isDone = $faker->boolean();
@@ -40,7 +36,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
             if(rand(1, 3) !== 1) {
                 $task->setUser($randomUser);
             } else {
-                $task->setUser($userAnonymous);
+                $task->setUser(null);
             }
             $task->setTitle($title);
             $task->setContent($content);
