@@ -21,7 +21,7 @@ class UserFixtures extends Fixture
 
         for ($users = 0; $users < 25; $users++) { 
             $username = $faker->userName();
-            $email = $username."@".$faker->freeEmailDomain();;
+            $email = $username."@".$faker->freeEmailDomain();
             $role = $faker->randomElements(["ROLE_USER", "ROLE_ADMIN"]);
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $faker->date("Y-m-d H:i:s"));
 

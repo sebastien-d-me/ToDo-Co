@@ -29,6 +29,7 @@ class TaskEntityTest extends WebTestCase
         $task->setUpdatedAt($currentDate);
         $task->setUser($randomUser);
 
+        $this->assertEquals($task->getId(), $task->getId());
         $this->assertEquals($title, $task->getTitle());
         $this->assertEquals($content, $task->getContent());
         $this->assertEquals($isDone, $task->isIsDone());
