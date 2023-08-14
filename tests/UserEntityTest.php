@@ -18,8 +18,7 @@ class UserEntityTest extends WebTestCase
     public function testCreateUser(): void
     {        
         $email = "john.doe@test.com";
-        $roles = ["ROLE_ADMIN", "ROLE_USER"];
-        $role = array($roles[array_rand($roles)]);
+        $role = ["ROLE_USER"];
         $username = "john.doe";
         $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
@@ -40,5 +39,6 @@ class UserEntityTest extends WebTestCase
         $this->assertEquals($username, $user->getUsername());
         $this->assertEquals($currentDate, $user->getCreatedAt());
         $this->assertEquals($currentDate, $user->getUpdatedAt());
+        $this->assertNull($user->eraseCredentials());        
     }
 }
