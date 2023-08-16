@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Form\TaskType;
 use App\Entity\Task;
-use App\Repository\UserRepository;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class TaskTypeTest extends TypeTestCase
