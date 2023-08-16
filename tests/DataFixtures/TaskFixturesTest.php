@@ -33,6 +33,6 @@ class TaskFixturesTest extends KernelTestCase
 
         $newTasksNumber = count($tasksContainer->findAll());
 
-        $this->assertEquals($newTasksNumber, $oldTasksNumber + 25);
+        $this->assertEquals($newTasksNumber, $oldTasksNumber + 5);
     }
 }

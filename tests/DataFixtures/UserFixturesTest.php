@@ -21,15 +21,15 @@ class UserFixturesTest extends KernelTestCase
     {
         $objectManager = static::getContainer()->get("doctrine")->getManager();
         
-        $usersContainer = static::getContainer()->get(UserRepository::class);
+        $usersRepository = static::getContainer()->get(UserRepository::class);
         
-        $oldUsersNumber = count($usersContainer->findAll());
+        $oldUsersNumber = count($usersRepository->findAll());
 
-        $userFixtures = new UserFixtures($this->userPasswordHasher);
+        $userFixtures = new UserFixtures($this->userPasswordHasher, $usersRepository);
         $userFixtures->load($objectManager);
 
-        $newUsersNumber = count($usersContainer->findAll());
+        $newUsersNumber = count($usersRepository->findAll());
 
-        $this->assertEquals($newUsersNumber, $oldUsersNumber + 25);
+        $this->assertEquals($newUsersNumber, $oldUsersNumber + 5);
     }
 }

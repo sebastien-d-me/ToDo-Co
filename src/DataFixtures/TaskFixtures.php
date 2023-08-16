@@ -24,7 +24,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
         $users = $manager->getRepository(User::class)->findAll();
 
-        for ($tasks = 0; $tasks < 25; $tasks++) { 
+        for ($tasks = 0; $tasks < 5; $tasks++) { 
             $randomUser = $users[array_rand($users)];
 
             $title = rtrim($faker->sentence(3), ".");
