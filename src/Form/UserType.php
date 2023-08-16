@@ -53,7 +53,7 @@ class UserType extends AbstractType
             "row_attr" => ["class" => "mt-2"]
         ]);
 
-        $builder->add("roles", ChoiceType::class, [
+        $builder->add("role", ChoiceType::class, [
             "attr" => ["class" => "form-select"],
             "choices"  => [
                 "Utilisateur" => "ROLE_USER",

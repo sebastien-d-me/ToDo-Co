@@ -29,14 +29,18 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request("GET", "/users/create");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
-        $form["user[username]"] = "john.doe";
+        $form["user[username]"] = "john.doe.usercontroller";
         $form["user[password][first]"] = "Azerty123";
-        $client->submit($form);
+        $form["user[password][second]"] = "Azerty123";
+        $form["user[email]"] = "john.doe.usercontroller@mail.com";
+        $form["user[role]"] = "ROLE_ADMIN";
 
-        $userCreated = $usersRepository->findOneBy(["username" => "john.doe"]);
-        $this->assertNotNull($userCreated);
-        
+        $client->submit($form);
         $client->followRedirects();
-        $this->assertSelectorTextContains("div.alert.alert-success", "L'utilisateur a bien été ajouté.");
+
+        $createdUser = $usersRepository->findOneByEmail("john.doe.usercontroller@mail.com");
+
+        $this->assertEquals(["ROLE_ADMIN"], $createdUser->getRoles()[0]);
+        $this->assertSelectorTextContains("span.alert-message", "L'utilisateur a bien été ajouté.");
     }
 }
