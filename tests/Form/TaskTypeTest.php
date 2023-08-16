@@ -12,7 +12,7 @@ class TaskTypeTest extends TypeTestCase
     {   
         $formData = [
             "title" => "Nunc gravida ligula non est convallis faucibus",
-            "content" => "Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.",
+            "content" => "Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar."
         ];
 
         $task = new Task();
