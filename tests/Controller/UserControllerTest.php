@@ -15,11 +15,7 @@ class UserControllerTest extends WebTestCase
         $client->loginUser($user);
 
         $crawler = $client->request("GET", "/users");
-        $this->assertResponseIsSuccessful();
-    }
 
-    public function testUserCreate(): void 
-    {
-        
+        $this->assertResponseIsSuccessful();
     }
 }

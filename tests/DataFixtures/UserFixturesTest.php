@@ -32,4 +32,14 @@ class UserFixturesTest extends KernelTestCase
 
         $this->assertEquals($newUsersNumber, $oldUsersNumber + 5);
     }
+
+    public function testCheckExistUserFixtures(): void
+    {
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneBy(["email" => "user@test.com"]);
+        $admin = $usersRepository->findOneBy(["email" => "admin@test.com"]);
+
+        $this->assertNotNull($user);
+        $this->assertNotNull($admin);
+    }
 }
