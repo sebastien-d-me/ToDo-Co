@@ -12,8 +12,8 @@ class TaskEntityTest extends WebTestCase
     public function testCreateTask(): void
     {
         $client = static::createClient();
-        $usersContainer = static::getContainer()->get(UserRepository::class);
-        $usersList = $usersContainer->findAll();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $usersList = $usersRepository->findAll();
 
         $title = "Lorem ipsum dolor";
         $content = "Donec lobortis sapien id sapien tincidunt feugiat. Sed urna ante, egestas vitae luctus sit amet, semper in risus.";

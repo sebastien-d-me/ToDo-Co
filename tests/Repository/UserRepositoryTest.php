@@ -13,9 +13,9 @@ class UserRepositoryTest extends KernelTestCase
         self::bootKernel();
     }
     
-    public function testUserRepository()
+    public function testUserRepository(): void
     {
-        $usersContainer = static::getContainer()->get(UserRepository::class);
+        $usersRepository = static::getContainer()->get(UserRepository::class);
 
         $user = new User();
         $user->setEmail("john.doe.".date("Y-m-d H:i:s")."@mail.com");
@@ -25,7 +25,7 @@ class UserRepositoryTest extends KernelTestCase
         $newHashedPassword = password_hash("Azerty123", PASSWORD_DEFAULT);
         $user->setPassword($newHashedPassword);
 
-        $usersContainer->upgradePassword($user, $newHashedPassword);
+        $usersRepository->upgradePassword($user, $newHashedPassword);
 
         $this->assertEquals($newHashedPassword, $user->getPassword());
     }

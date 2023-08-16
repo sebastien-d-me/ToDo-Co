@@ -14,24 +14,24 @@ class TaskFixturesTest extends KernelTestCase
         self::bootKernel();
     }
 
-    public function testTaskFixturesDependencies()
+    public function testTaskFixturesDependencies(): void
     {
         $taskFixtures = new TaskFixtures();
 
         $this->assertContains(UserFixtures::class, $taskFixtures->getDependencies());
     }
 
-    public function testTaskFixtures()
+    public function testTaskFixtures(): void
     {
         $objectManager = static::getContainer()->get("doctrine")->getManager();
         
-        $tasksContainer = static::getContainer()->get(TaskRepository::class);
-        $oldTasksNumber = count($tasksContainer->findAll());
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $oldTasksNumber = count($tasksRepository->findAll());
 
         $taskFixtures = new TaskFixtures();
         $taskFixtures->load($objectManager);
 
-        $newTasksNumber = count($tasksContainer->findAll());
+        $newTasksNumber = count($tasksRepository->findAll());
 
         $this->assertEquals($newTasksNumber, $oldTasksNumber + 5);
     }

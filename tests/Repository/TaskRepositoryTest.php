@@ -16,14 +16,14 @@ class TaskRepositoryTest extends KernelTestCase
         $this->entityManager = $kernel->getContainer()->get("doctrine")->getManager();
     }
     
-    public function testFindByUncompleted()
+    public function testFindByUncompleted(): void
     {
         $task = $this->entityManager->getRepository(Task::class)->findByUncompleted()[0];
 
         $this->assertSame(false, $task->IsIsDone());
     }
 
-    public function testFindByCompleted()
+    public function testFindByCompleted(): void
     {
         $task = $this->entityManager->getRepository(Task::class)->findByCompleted()[0];
 

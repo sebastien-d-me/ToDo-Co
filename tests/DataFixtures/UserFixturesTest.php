@@ -17,7 +17,7 @@ class UserFixturesTest extends KernelTestCase
         $this->userPasswordHasher = self::getContainer()->get(UserPasswordHasherInterface::class);
     }
 
-    public function testUserFixtures()
+    public function testUserFixtures(): void
     {
         $objectManager = static::getContainer()->get("doctrine")->getManager();
         
