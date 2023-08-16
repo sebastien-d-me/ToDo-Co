@@ -17,9 +17,9 @@ class UserController extends AbstractController
 {
     #[Route("/users", name: "users_list")]
     #[IsGranted("ROLE_ADMIN", message: "Vous n'avez pas les droits pour accéder à cette page.")]
-    public function list(UserRepository $userRepository): Response
+    public function list(UserRepository $usersRepository): Response
     {
-        $usersList = $userRepository->findAll();
+        $usersList = $usersRepository->findAll();
 
         return $this->render("pages/users/list.html.twig", [
             "users" => $usersList
@@ -60,9 +60,9 @@ class UserController extends AbstractController
 
     #[Route("/users/{userID}/edit", name: "users_edit")]
     #[IsGranted("ROLE_ADMIN", message: "Vous n'avez pas les droits pour accéder à cette page.")]
-    public function edit(EntityManagerInterface $entityManager, Request $request, int $userID, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
+    public function edit(EntityManagerInterface $entityManager, Request $request, int $userID, UserPasswordHasherInterface $userPasswordHasher, UserRepository $usersRepository): Response
     {
-        $user = $userRepository->findOneBy(["id" => $userID]);
+        $user = $usersRepository->findOneBy(["id" => $userID]);
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);

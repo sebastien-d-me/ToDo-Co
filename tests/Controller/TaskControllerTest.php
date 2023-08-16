@@ -10,8 +10,8 @@ class TaskControllerTest extends WebTestCase
     public function testTaskUncompletedResponse(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneByEmail("admin@test.com");
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("admin@test.com");
         $client->loginUser($user);
 
         $crawler = $client->request("GET", "/tasks");
@@ -22,8 +22,8 @@ class TaskControllerTest extends WebTestCase
     public function testTaskCompletedResponse(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneByEmail("admin@test.com");
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("admin@test.com");
         $client->loginUser($user);
 
         $crawler = $client->request("GET", "/tasks/done");
