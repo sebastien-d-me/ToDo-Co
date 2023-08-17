@@ -32,6 +32,40 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testTaskSetCompleted(): void
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($user);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findAll();
+        $exempleTask = $tasksList[0];
+
+        $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/completed");
+        $client->followRedirects();
+
+        $this->assertEquals(true, $exempleTask->isIsDone());
+    }
+
+    public function testTaskSetUncompleted(): void
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($user);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findAll();
+        $exempleTask = $tasksList[0];
+
+        $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/uncompleted");
+        $client->followRedirects();
+
+        $this->assertEquals(false, $exempleTask->isIsDone());
+    }
+
     public function testTaskDelete(): void
     {
         $client = static::createClient();
