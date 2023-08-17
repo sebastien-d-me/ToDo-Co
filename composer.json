@@ -56,6 +56,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
+        "generate-coverage": "vendor\\bin\\phpunit --coverage-html public/test-coverage",
         "post-install-cmd": [
             "@auto-scripts"
         ],

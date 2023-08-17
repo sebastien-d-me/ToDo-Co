@@ -20,9 +20,9 @@ class UserTypeTest extends TypeTestCase
     public function testUserType(): void
     {   
         $formData = [
-            "username" => "john.doe",
+            "username" => "john.doe.type",
             "password" => "Azerty123",
-            "email" => "john.doe@mail.com",
+            "email" => "john.doe.type@mail.com",
         ];
 
         $user = new User();

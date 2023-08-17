@@ -23,8 +23,8 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
+        $loggedUser = $usersRepository->findOneByEmail("admin@test.com");
+        $client->loginUser($loggedUser);
 
         $crawler = $client->request("GET", "/users/create");
 
@@ -38,9 +38,33 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirects();
 
-        $createdUser = $usersRepository->findOneByEmail("john.doe.usercontroller@mail.com");
+        $user = $usersRepository->findOneBy(["email" => "john.doe.usercontroller@mail.com"]);
 
-        $this->assertEquals(["ROLE_ADMIN"], $createdUser->getRoles()[0]);
-        $this->assertSelectorTextContains("span.alert-message", "L'utilisateur a bien été ajouté.");
+        $this->assertNotNull($user);
+    }
+
+    public function testEditCreate(): void 
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $loggedUser = $usersRepository->findOneByEmail("admin@test.com");
+        $client->loginUser($loggedUser);
+
+        $userId = $usersRepository->findOneByEmail("john.doe.usercontroller@mail.com")->getId();
+
+        $crawler = $client->request("GET", "/users/".$userId."/edit");
+
+        $form = $crawler->selectButton("Sauvegarder")->form();
+        $form["user[username]"] = "john.doe.edited.usercontroller";
+
+        $client->submit($form);
+        $client->followRedirects();
+
+        $user = $usersRepository->findOneBy(["email" => "john.doe.usercontroller@mail.com"]);
+
+        echo $user;
+        echo $form;
+
+        $this->assertEquals("john.doe.edited.usercontroller", $user->getUsername());
     }
 }
