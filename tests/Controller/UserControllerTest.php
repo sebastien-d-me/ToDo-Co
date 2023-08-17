@@ -56,14 +56,15 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton("Sauvegarder")->form();
         $form["user[username]"] = "john.doe.edited.usercontroller";
+        $form["user[password][first]"] = "Azerty123";
+        $form["user[password][second]"] = "Azerty123";
+        $form["user[email]"] = "john.doe.usercontroller@mail.com";
+        $form["user[role]"] = "ROLE_ADMIN";
 
         $client->submit($form);
         $client->followRedirects();
 
         $user = $usersRepository->findOneBy(["email" => "john.doe.usercontroller@mail.com"]);
-
-        echo $user;
-        echo $form;
 
         $this->assertEquals("john.doe.edited.usercontroller", $user->getUsername());
     }

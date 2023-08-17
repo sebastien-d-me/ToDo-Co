@@ -18,8 +18,8 @@ class UserRepositoryTest extends KernelTestCase
         $usersRepository = static::getContainer()->get(UserRepository::class);
 
         $user = new User();
-        $user->setEmail("john.doe.repository@mail.com");
-        $user->setUsername("john.doe.repository");
+        $user->setEmail("test.repository".date("Y-m-d H:i:s")."@mail.com");
+        $user->setUsername("test.repository".date("Y-m-d H:i:s"));
         $user->setCreatedAt(\DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
         $user->setUpdatedAt(\DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
         $newHashedPassword = password_hash("Azerty123", PASSWORD_DEFAULT);
