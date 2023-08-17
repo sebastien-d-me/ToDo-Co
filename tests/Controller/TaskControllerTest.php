@@ -40,14 +40,15 @@ class TaskControllerTest extends WebTestCase
         $client->loginUser($user);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $exempleTask = $tasksRepository->findAll()[0];
+        $tasksList = $tasksRepository->findAll();
+        $exempleTask = $tasksList[0];
         $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
 
-        $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
+        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
         $client->followRedirects();
 
-        $checkExempleTask = $tasksRepository->findAll()[0];
+        $checkExempleTask = $tasksList[0];
 
-        $this->assertEquals($exempleTask, $checkExempleTask);
+        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
     }
 }

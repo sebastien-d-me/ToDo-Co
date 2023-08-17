@@ -26,7 +26,7 @@ class UserControllerTest extends WebTestCase
         $loggedUser = $usersRepository->findOneByEmail("admin@test.com");
         $client->loginUser($loggedUser);
 
-        $crawler = $client->request("GET", "/users/create");
+        $crawler = $client->request("POST", "/users/create");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
         $form["user[username]"] = "john.doe.usercontroller";
@@ -52,7 +52,7 @@ class UserControllerTest extends WebTestCase
 
         $userId = $usersRepository->findOneByEmail("john.doe.usercontroller@mail.com")->getId();
 
-        $crawler = $client->request("GET", "/users/".$userId."/edit");
+        $crawler = $client->request("POST", "/users/".$userId."/edit");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
         $form["user[username]"] = "john.doe.edited.usercontroller";
