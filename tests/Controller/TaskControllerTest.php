@@ -32,6 +32,54 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testTaskCreate(): void 
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($loggedUser);
+
+        $crawler = $client->request("POST", "/tasks/create");
+
+        $form = $crawler->selectButton("Sauvegarder")->form();
+        $form["task[title]"] = "Test Controller : Nunc gravida ligula non est convallis faucibus";
+        $form["task[content]"] = "Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+
+        $client->submit($form);
+        $client->followRedirects();
+
+        $task = $tasksRepository->findOneBy(["title" => "Test Controller : Nunc gravida ligula non est convallis faucibus"]);
+
+        $this->assertNotNull($task);
+    }
+
+    public function testTaskEdit(): void 
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($loggedUser);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findAll();
+        $exempleTask = $tasksList[0];
+        $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
+
+        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/".$exempleTaskStatut);
+
+        $form = $crawler->selectButton("Sauvegarder")->form();
+        $form["task[title]"] = "Test Controller Edited : Nunc gravida ligula non est convallis faucibus";
+        $form["task[content]"] = "Edited : Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+
+        $client->submit($form);
+        $client->followRedirects();
+
+        $task = $tasksRepository->findOneBy(["title" => "Test Controller Edited : Nunc gravida ligula non est convallis faucibus"]);
+
+        $this->assertNotNull($task);
+    }
+
     public function testTaskSetCompleted(): void
     {
         $client = static::createClient();
