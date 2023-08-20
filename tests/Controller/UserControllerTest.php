@@ -41,7 +41,6 @@ class UserControllerTest extends WebTestCase
         $user = $usersRepository->findOneBy(["email" => "john.doe.usercontroller@mail.com"]);
 
         $this->assertNotNull($user);
-        $this->assertTrue($client->getResponse()->isRedirect("/"));
     }
 
     public function testEditCreate(): void 

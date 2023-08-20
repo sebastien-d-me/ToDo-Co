@@ -189,14 +189,6 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
 
         if($exempleTaskStatut === "completed") {
-            $this->assertEquals("completed", $exempleTaskStatut);
-        } else {
-            $this->assertEquals("uncompleted", $exempleTaskStatut);
-        }
-
-        if($exempleTaskStatut === "completed") {
-            $tasksRepository = static::getContainer()->get(TaskRepository::class);
-            $exempleTask = $tasksList[0];
             $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/uncompleted");
             $client->followRedirects();
 

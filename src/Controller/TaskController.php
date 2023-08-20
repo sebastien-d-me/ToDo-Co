@@ -139,12 +139,7 @@ class TaskController extends AbstractController
         if(!$this->isGranted("ROLE_ADMIN")) {
             if($this->getUser() !== $task->getUser()) {
                 $this->addFlash("danger", "Vous n'avez pas les droits pour supprimer cette tâche.");
-
-                if($type === "completed") {
-                    return $this->redirectToRoute("tasks_list_completed");
-                } else {
-                    return $this->redirectToRoute("tasks_list_uncompleted");
-                }
+                return $this->redirectToRoute("home");
             }
         }
 
