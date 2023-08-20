@@ -54,7 +54,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertNotNull($task);
     }
 
-    public function testTaskEdit(): void 
+    public function testTaskEditUncompleted(): void 
     {
         $client = static::createClient();
         $usersRepository = static::getContainer()->get(UserRepository::class);
@@ -62,9 +62,39 @@ class TaskControllerTest extends WebTestCase
         $client->loginUser($loggedUser);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findAll();
+        $tasksList = $tasksRepository->findBy([
+            "isDone" => false
+        ]);
         $exempleTask = $tasksList[0];
-        $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
+        $exempleTaskStatut = "uncompleted";
+
+        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/".$exempleTaskStatut);
+
+        $form = $crawler->selectButton("Sauvegarder")->form();
+        $form["task[title]"] = "Test Controller Edited : Nunc gravida ligula non est convallis faucibus";
+        $form["task[content]"] = "Edited : Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+
+        $client->submit($form);
+        $client->followRedirects();
+
+        $task = $tasksRepository->findOneBy(["title" => "Test Controller Edited : Nunc gravida ligula non est convallis faucibus"]);
+
+        $this->assertNotNull($task);
+    }
+
+    public function testTaskEditCompleted(): void 
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($loggedUser);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findBy([
+            "isDone" => true
+        ]);
+        $exempleTask = $tasksList[0];
+        $exempleTaskStatut = "completed";
 
         $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/".$exempleTaskStatut);
 

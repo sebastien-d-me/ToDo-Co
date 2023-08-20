@@ -33,7 +33,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $faker->date("Y-m-d H:i:s"));
 
             $task = new Task();
-            if(rand(1, 3) !== 1) {
+            if($tasks === 2 || $tasks === 4) {
                 $task->setUser($randomUser);
             } else {
                 $task->setUser(null);

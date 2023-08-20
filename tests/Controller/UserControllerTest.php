@@ -29,10 +29,10 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request("POST", "/users/create");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
-        $form["user[username]"] = "john.doe.usercontroller";
+        $form["user[username]"] = "john.doe.usercontroller.".date("h:i:s");
         $form["user[password][first]"] = "Azerty123";
         $form["user[password][second]"] = "Azerty123";
-        $form["user[email]"] = "john.doe.usercontroller@mail.com";
+        $form["user[email]"] = "john.doe.usercontroller@mail.com.".date("h:i:s");
         $form["user[role]"] = "ROLE_ADMIN";
 
         $client->submit($form);
@@ -41,6 +41,7 @@ class UserControllerTest extends WebTestCase
         $user = $usersRepository->findOneBy(["email" => "john.doe.usercontroller@mail.com"]);
 
         $this->assertNotNull($user);
+        $this->assertTrue($client->getResponse()->isRedirect("/"));
     }
 
     public function testEditCreate(): void 
