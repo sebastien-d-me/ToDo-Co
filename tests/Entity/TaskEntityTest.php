@@ -12,29 +12,27 @@ class TaskEntityTest extends WebTestCase
     public function testCreateTask(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
         $usersList = $usersRepository->findAll();
 
-        $title = "Lorem ipsum dolor";
-        $content = "Donec lobortis sapien id sapien tincidunt feugiat. Sed urna ante, egestas vitae luctus sit amet, semper in risus.";
-        $isDone = true;
         $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-        $randomUser = $usersList[array_rand($usersList)];
+        $currentUser = $usersList[array_rand($usersList)];
 
         $task = new Task();
-        $task->setTitle($title);
-        $task->setContent($content);
-        $task->setIsDone($isDone);
+        $task->setTitle("Lorem ipsum dolor");
+        $task->setContent("Donec lobortis sapien id sapien tincidunt feugiat. Sed urna ante, egestas vitae luctus sit amet, semper in risus.");
+        $task->setIsDone(true);
         $task->setCreatedAt($currentDate);
         $task->setUpdatedAt($currentDate);
-        $task->setUser($randomUser);
+        $task->setUser($currentUser);
 
         $this->assertEquals($task->getId(), $task->getId());
-        $this->assertEquals($title, $task->getTitle());
-        $this->assertEquals($content, $task->getContent());
-        $this->assertEquals($isDone, $task->isIsDone());
+        $this->assertEquals("Lorem ipsum dolor", $task->getTitle());
+        $this->assertEquals("Donec lobortis sapien id sapien tincidunt feugiat. Sed urna ante, egestas vitae luctus sit amet, semper in risus.", $task->getContent());
+        $this->assertEquals(true, $task->isIsDone());
         $this->assertEquals($currentDate, $task->getCreatedAt());
         $this->assertEquals($currentDate, $task->getUpdatedAt());
-        $this->assertEquals($randomUser, $task->getUser());
+        $this->assertEquals($currentUser, $task->getUser());
     }
 }
