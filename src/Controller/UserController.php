@@ -79,6 +79,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash("success", "L'utilisateur a bien été modifié.");
+            
             return $this->redirectToRoute("users_list");
         }
 

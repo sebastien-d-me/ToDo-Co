@@ -8,118 +8,121 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
 {
-    public function testTaskUncompletedResponse(): void
+    public function testUncompletedTasksResponse(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $crawler = $client->request("GET", "/tasks");
 
         $this->assertResponseIsSuccessful();
     }
 
-    public function testTaskCompletedResponse(): void
+    public function testCompletedTasksResponse(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $crawler = $client->request("GET", "/tasks/done");
 
         $this->assertResponseIsSuccessful();
     }
 
-    public function testTaskCreate(): void 
+    public function testNewTask(): void 
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($loggedUser);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+        
+        $client->loginUser($loggedAccount);
 
         $crawler = $client->request("POST", "/tasks/create");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
-        $form["task[title]"] = "Test Controller : Nunc gravida ligula non est convallis faucibus";
-        $form["task[content]"] = "Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+        $form["task[title]"] = "Task controller title";
+        $form["task[content]"] = "Task controller content.";
 
         $client->submit($form);
         $client->followRedirects();
 
-        $task = $tasksRepository->findOneBy(["title" => "Test Controller : Nunc gravida ligula non est convallis faucibus"]);
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $task = $tasksRepository->findOneBy(["title" => "Task controller title"]);
 
         $this->assertNotNull($task);
     }
 
-    public function testTaskEditUncompleted(): void 
+    public function testEditUncompletedTask(): void 
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($loggedUser);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+        
+        $client->loginUser($loggedAccount);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findBy([
-            "isDone" => false
-        ]);
-        $exempleTask = $tasksList[0];
-        $exempleTaskStatut = "uncompleted";
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => false]);
 
-        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/".$exempleTaskStatut);
+        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/uncompleted");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
-        $form["task[title]"] = "Test Controller Edited : Nunc gravida ligula non est convallis faucibus";
-        $form["task[content]"] = "Edited : Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+        $form["task[title]"] = "Task edited controller title";
+        $form["task[content]"] = "Task edited controller content.";
 
         $client->submit($form);
         $client->followRedirects();
 
-        $task = $tasksRepository->findOneBy(["title" => "Test Controller Edited : Nunc gravida ligula non est convallis faucibus"]);
+        $task = $tasksRepository->findOneBy(["title" => "Task edited controller title"]);
 
         $this->assertNotNull($task);
     }
 
-    public function testTaskEditCompleted(): void 
+    public function testEditCompletedTask(): void 
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $loggedUser = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($loggedUser);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findBy([
-            "isDone" => true
-        ]);
-        $exempleTask = $tasksList[0];
-        $exempleTaskStatut = "completed";
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => true]);
 
-        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/".$exempleTaskStatut);
+        $crawler = $client->request("POST", "/tasks/edit/".$exempleTask->getId()."/completed");
 
         $form = $crawler->selectButton("Sauvegarder")->form();
-        $form["task[title]"] = "Test Controller Edited : Nunc gravida ligula non est convallis faucibus";
-        $form["task[content]"] = "Edited : Morbi sit amet molestie sem. Quisque mattis posuere neque ullamcorper pulvinar.";
+        $form["task[title]"] = "Task edited controller title";
+        $form["task[content]"] = "Task edited controller content.";
 
         $client->submit($form);
         $client->followRedirects();
 
-        $task = $tasksRepository->findOneBy(["title" => "Test Controller Edited : Nunc gravida ligula non est convallis faucibus"]);
+        $task = $tasksRepository->findOneBy(["title" => "Task edited controller title"]);
 
         $this->assertNotNull($task);
     }
 
-    public function testTaskSetCompleted(): void
+    public function testSetCompletedTask(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+        
+        $client->loginUser($loggedAccount);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findAll();
-        $exempleTask = $tasksList[0];
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => false]);
 
         $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/completed");
         $client->followRedirects();
@@ -127,16 +130,17 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(true, $exempleTask->isIsDone());
     }
 
-    public function testTaskSetUncompleted(): void
+    public function testSetUncompletedTask(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findAll();
-        $exempleTask = $tasksList[0];
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => true]);
 
         $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/uncompleted");
         $client->followRedirects();
@@ -144,81 +148,59 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(false, $exempleTask->isIsDone());
     }
 
-    public function testTaskDeleteUncompleted(): void
+    public function testDeleteUncompletedTask(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+        
+        $client->loginUser($loggedAccount);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findBy([
-            "isDone" => false
-        ]);
-        $exempleTask = $tasksList[0];
-        $exempleTaskStatut = "uncompleted";
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => false]);
 
-        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
+        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/uncompleted");
         $client->followRedirects();
 
-        $checkExempleTask = $tasksList[0];
-
-        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
+        $this->assertNull($exempleTask->getId());
     }
 
-    public function testTaskDeleteUser(): void
+    public function testDeleteCompletedTask(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("user@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+        
+        $client->loginUser($loggedAccount);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $exempleTask = $tasksRepository->findOneBy(["isDone" => true]);
+
+        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/completed");
+        $client->followRedirects();
+
+        $this->assertNull($exempleTask->getId());
+    }
+
+    public function testDeleteTaskUser(): void
+    {
+        $client = static::createClient();
+
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $loggedAccount = $usersRepository->findOneByEmail("user@test.com");
+        
+        $client->loginUser($loggedAccount);
 
         $admin = $usersRepository->findOneByEmail("admin@test.com");
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findBy([
-            "user" => $admin
-        ]);
-        $exempleTask = $tasksList[0];
+        $exempleTask = $tasksRepository->findOneBy(["user" => $admin]);
         $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
         $client->followRedirects();
 
-        $checkExempleTask = $tasksList[0];
-
-        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
-
-        if($exempleTaskStatut === "completed") {
-            $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/uncompleted");
-            $client->followRedirects();
-
-            $checkExempleTask = $tasksList[0];
-            
-            $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
-        }
-        
-    }
-    
-
-    public function testTaskDeleteCompleted(): void
-    {
-        $client = static::createClient();
-        $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
-
-        $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findBy([
-            "isDone" => true
-        ]);
-        $exempleTask = $tasksList[0];
-        $exempleTaskStatut = "completed";
-
-        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
-        $client->followRedirects();
-
-        $checkExempleTask = $tasksList[0];
-
-        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
+        $this->assertNotNull($exempleTask->getId());
     }
 }
