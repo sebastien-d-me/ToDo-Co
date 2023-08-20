@@ -10,21 +10,25 @@ class UserControllerTest extends WebTestCase
     public function testUserResponse(): void
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $user = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($user);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $crawler = $client->request("GET", "/users");
 
         $this->assertResponseIsSuccessful();
     }
 
-    public function testUserCreate(): void 
+    public function testNewUser(): void 
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $loggedUser = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($loggedUser);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $crawler = $client->request("POST", "/users/create");
 
@@ -43,12 +47,14 @@ class UserControllerTest extends WebTestCase
         $this->assertNotNull($user);
     }
 
-    public function testEditCreate(): void 
+    public function testEditUser(): void 
     {
         $client = static::createClient();
+
         $usersRepository = static::getContainer()->get(UserRepository::class);
-        $loggedUser = $usersRepository->findOneByEmail("admin@test.com");
-        $client->loginUser($loggedUser);
+        $loggedAccount = $usersRepository->findOneByEmail("admin@test.com");
+
+        $client->loginUser($loggedAccount);
 
         $userId = $usersRepository->findOneByEmail("john.doe.usercontroller@mail.com")->getId();
 
