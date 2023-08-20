@@ -50,7 +50,7 @@ class UserFixtures extends Fixture
         }
 
         for ($users = 0; $users < 5; $users++) { 
-            $username = $faker->userName();
+            $username = $faker->userName().".".$faker->word();
             $email = $username."@".$faker->freeEmailDomain();
             $role = $faker->randomElements(["ROLE_USER", "ROLE_ADMIN"]);
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $faker->date("Y-m-d H:i:s"));

@@ -87,11 +87,8 @@ class TaskController extends AbstractController
 
             $this->addFlash("success", "La tâche a été bien été modifié.");
 
-            if($type === "completed") {
-                return $this->redirectToRoute("tasks_list_completed");
-            } else {
-                return $this->redirectToRoute("tasks_list_uncompleted");
-            }
+            $redirectionRoute = ($type === "completed") ? "tasks_list_completed" : "tasks_list_uncompleted";
+            return $this->redirectToRoute($redirectionRoute);
         }
 
         return $this->render("pages/tasks/edit.html.twig", [
@@ -144,13 +141,11 @@ class TaskController extends AbstractController
 
             $this->addFlash("success", "La tâche a bien été supprimée.");
 
-            if($type === "completed") {
-                return $this->redirectToRoute("tasks_list_completed");
-            } else {
-                return $this->redirectToRoute("tasks_list_uncompleted");
-            }
+            $redirectionRoute = ($type === "completed") ? "tasks_list_completed" : "tasks_list_uncompleted";
+            return $this->redirectToRoute($redirectionRoute);
         } else {
             $this->addFlash("danger", "Vous n'avez pas les droits pour supprimer cette tâche.");
+            
             return $this->redirectToRoute("home");      
         }
     }

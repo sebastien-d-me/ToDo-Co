@@ -196,7 +196,7 @@ class TaskControllerTest extends WebTestCase
         $admin = $usersRepository->findOneByEmail("admin@test.com");
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
         $exempleTask = $tasksRepository->findOneBy(["user" => $admin]);
-        $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
+        $exempleTaskStatut = $exempleTask->isIsDone() ? "completed" : "uncompleted";
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
         $client->followRedirects();
