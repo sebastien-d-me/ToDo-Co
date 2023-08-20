@@ -2,9 +2,11 @@
 
 namespace App\Tests\Repository;
 
+use App\Entity\Task;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class UserRepositoryTest extends KernelTestCase
 {

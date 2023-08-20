@@ -144,7 +144,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(false, $exempleTask->isIsDone());
     }
 
-    public function testTaskDelete(): void
+    public function testTaskDeleteUncompleted(): void
     {
         $client = static::createClient();
         $usersRepository = static::getContainer()->get(UserRepository::class);
@@ -152,9 +152,75 @@ class TaskControllerTest extends WebTestCase
         $client->loginUser($user);
 
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $tasksList = $tasksRepository->findAll();
+        $tasksList = $tasksRepository->findBy([
+            "isDone" => false
+        ]);
+        $exempleTask = $tasksList[0];
+        $exempleTaskStatut = "uncompleted";
+
+        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
+        $client->followRedirects();
+
+        $checkExempleTask = $tasksList[0];
+
+        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
+    }
+
+    public function testTaskDeleteUser(): void
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("user@test.com");
+        $client->loginUser($user);
+
+        $admin = $usersRepository->findOneByEmail("admin@test.com");
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findBy([
+            "user" => $admin
+        ]);
         $exempleTask = $tasksList[0];
         $exempleTask->isIsDone() ? $exempleTaskStatut = "completed" : $exempleTaskStatut = "uncompleted";
+
+        $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
+        $client->followRedirects();
+
+        $checkExempleTask = $tasksList[0];
+
+        $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
+
+        if($exempleTaskStatut === "completed") {
+            $this->assertEquals("completed", $exempleTaskStatut);
+        } else {
+            $this->assertEquals("uncompleted", $exempleTaskStatut);
+        }
+
+        if($exempleTaskStatut === "completed") {
+            $tasksRepository = static::getContainer()->get(TaskRepository::class);
+            $exempleTask = $tasksList[0];
+            $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/uncompleted");
+            $client->followRedirects();
+
+            $checkExempleTask = $tasksList[0];
+            
+            $this->assertEquals($exempleTask->getTitle(), $checkExempleTask->getTitle());
+        }
+        
+    }
+    
+
+    public function testTaskDeleteCompleted(): void
+    {
+        $client = static::createClient();
+        $usersRepository = static::getContainer()->get(UserRepository::class);
+        $user = $usersRepository->findOneByEmail("admin@test.com");
+        $client->loginUser($user);
+
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasksList = $tasksRepository->findBy([
+            "isDone" => true
+        ]);
+        $exempleTask = $tasksList[0];
+        $exempleTaskStatut = "completed";
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
         $client->followRedirects();

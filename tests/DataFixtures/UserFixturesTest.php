@@ -3,6 +3,7 @@
 namespace App\Tests\DataFixtures;
 
 use App\DataFixtures\UserFixtures;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
