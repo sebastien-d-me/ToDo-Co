@@ -19,20 +19,20 @@ class UserTypeTest extends TypeTestCase
 
     public function testUserType(): void
     {   
+        $user = new User();
+
         $formData = [
             "username" => "john.doe.type",
             "password" => "Azerty123",
             "email" => "john.doe.type@mail.com",
         ];
-
-        $user = new User();
         $form = $this->factory->create(UserType::class, $user);
+        $form->submit($formData);
 
         $expected = new User();
         $expected->setUsername($formData["username"]);
         $expected->setPassword($this->userPasswordHasher->hashPassword($expected, $formData["password"]));
         $expected->setEmail($formData["email"]);
-        $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expected, $user);

@@ -11,17 +11,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher, UserRepository $usersRepository)
+    private UserPasswordHasherInterface $userPasswordHasher;
+    
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->userPasswordHasher = $userPasswordHasher;
-        $this->userRepository = $usersRepository;
     }
 
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
 
-        $checkExist = $this->userRepository->findOneBy([
+        $checkExist = $manager->getRepository(User::class)->findOneBy([
             "email" => "user@test.com"
         ]);
 

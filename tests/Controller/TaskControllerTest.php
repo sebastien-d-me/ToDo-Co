@@ -125,6 +125,7 @@ class TaskControllerTest extends WebTestCase
         $exempleTask = $tasksRepository->findOneBy(["isDone" => false]);
 
         $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/completed");
+        
         $client->followRedirects();
 
         $this->assertEquals(true, $exempleTask->isIsDone());
@@ -143,6 +144,7 @@ class TaskControllerTest extends WebTestCase
         $exempleTask = $tasksRepository->findOneBy(["isDone" => true]);
 
         $crawler = $client->request("GET", "/tasks/".$exempleTask->getId()."/uncompleted");
+        
         $client->followRedirects();
 
         $this->assertEquals(false, $exempleTask->isIsDone());
@@ -161,6 +163,7 @@ class TaskControllerTest extends WebTestCase
         $exempleTask = $tasksRepository->findOneBy(["isDone" => false]);
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/uncompleted");
+        
         $client->followRedirects();
 
         $this->assertNull($exempleTask->getId());
@@ -179,6 +182,7 @@ class TaskControllerTest extends WebTestCase
         $exempleTask = $tasksRepository->findOneBy(["isDone" => true]);
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/completed");
+        
         $client->followRedirects();
 
         $this->assertNull($exempleTask->getId());
@@ -193,12 +197,13 @@ class TaskControllerTest extends WebTestCase
         
         $client->loginUser($loggedAccount);
 
-        $admin = $usersRepository->findOneByEmail("admin@test.com");
+        $taskUser = $usersRepository->findAll()[2];
         $tasksRepository = static::getContainer()->get(TaskRepository::class);
-        $exempleTask = $tasksRepository->findOneBy(["user" => $admin]);
+        $exempleTask = $tasksRepository->findOneBy(["user" => $taskUser]);
         $exempleTaskStatut = $exempleTask->isIsDone() ? "completed" : "uncompleted";
 
         $crawler = $client->request("DELETE", "/tasks/".$exempleTask->getId()."/delete/".$exempleTaskStatut);
+        
         $client->followRedirects();
 
         $this->assertNotNull($exempleTask->getId());
