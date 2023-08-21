@@ -21,7 +21,7 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function findByUncompleted()
+    public function findByUncompleted(): array
     {
         return $this->createQueryBuilder("t")
             ->where("t.isDone = :isDone")
@@ -32,7 +32,7 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByCompleted()
+    public function findByCompleted(): array
     {
         return $this->createQueryBuilder("t")
             ->where("t.isDone = :isDone")
