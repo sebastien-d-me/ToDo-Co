@@ -24,17 +24,15 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
         $users = $manager->getRepository(User::class)->findAll();
 
-        for ($tasks = 0; $tasks < 25; $tasks++) { 
-            $randomUser = $users[array_rand($users)];
-
+        for ($tasks = 0; $tasks < 10; $tasks++) { 
             $title = rtrim($faker->sentence(3), ".");
             $content = $faker->paragraph();
             $isDone = $faker->boolean();
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $faker->date("Y-m-d H:i:s"));
 
             $task = new Task();
-            if(rand(1, 3) !== 1) {
-                $task->setUser($randomUser);
+            if($tasks < 5) {
+                $task->setUser($users[$tasks]);
             } else {
                 $task->setUser(null);
             }

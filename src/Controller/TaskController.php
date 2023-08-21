@@ -87,11 +87,8 @@ class TaskController extends AbstractController
 
             $this->addFlash("success", "La tâche a été bien été modifié.");
 
-            if($type === "completed") {
-                return $this->redirectToRoute("tasks_list_completed");
-            } else {
-                return $this->redirectToRoute("tasks_list_uncompleted");
-            }
+            $redirectionRoute = ($type === "completed") ? "tasks_list_completed" : "tasks_list_uncompleted";
+            return $this->redirectToRoute($redirectionRoute);
         }
 
         return $this->render("pages/tasks/edit.html.twig", [
@@ -111,6 +108,7 @@ class TaskController extends AbstractController
         $entityManager->flush();
         
         $this->addFlash("success", "La tâche ".$task->getTitle()." a bien été marquée comme faite.");
+
         return $this->redirectToRoute("tasks_list_uncompleted");
     }
 
@@ -126,6 +124,7 @@ class TaskController extends AbstractController
         $entityManager->flush();
         
         $this->addFlash("success", "La tâche ".$task->getTitle()." a bien été marquée comme non faite.");
+        
         return $this->redirectToRoute("tasks_list_completed");
     }
 
@@ -136,27 +135,18 @@ class TaskController extends AbstractController
     {
         $task = $taskRepository->findOneBy(["id" => $taskId]);
 
-        if(!$this->isGranted("ROLE_ADMIN")) {
-            if($this->getUser() !== $task->getUser()) {
-                $this->addFlash("danger", "Vous n'avez pas les droits pour supprimer cette tâche.");
+        if($this->isGranted("ROLE_ADMIN") || $this->getUser() === $task->getUser()) {
+            $entityManager->remove($task);
+            $entityManager->flush();
 
-                if($type === "completed") {
-                    return $this->redirectToRoute("tasks_list_completed");
-                } else {
-                    return $this->redirectToRoute("tasks_list_uncompleted");
-                }
-            }
-        }
+            $this->addFlash("success", "La tâche a bien été supprimée.");
 
-        $entityManager->remove($task);
-        $entityManager->flush();
-
-        $this->addFlash("success", "La tâche a bien été supprimée.");
-
-        if($type === "completed") {
-            return $this->redirectToRoute("tasks_list_completed");
+            $redirectionRoute = ($type === "completed") ? "tasks_list_completed" : "tasks_list_uncompleted";
+            return $this->redirectToRoute($redirectionRoute);
         } else {
-            return $this->redirectToRoute("tasks_list_uncompleted");
+            $this->addFlash("danger", "Vous n'avez pas les droits pour supprimer cette tâche.");
+            
+            return $this->redirectToRoute("home");      
         }
     }
 }
