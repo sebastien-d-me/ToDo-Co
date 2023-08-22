@@ -5,4 +5,4 @@ controllers:
     type: attribute
 
 logout:
-  path: "/logout"
+    path: "/logout"

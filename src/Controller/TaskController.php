@@ -131,7 +131,7 @@ class TaskController extends AbstractController
 
     #[Route("/tasks/{taskId}/delete/{type}", name: "tasks_delete")]
     #[IsGranted("ROLE_USER", message: "Vous n'avez pas les droits pour accéder à cette page.")]
-    public function delete(EntityManagerInterface $entityManager, int $taskId, TaskRepository $taskRepository, string $type)
+    public function delete(EntityManagerInterface $entityManager, int $taskId, TaskRepository $taskRepository, string $type): Response
     {
         $task = $taskRepository->findOneBy(["id" => $taskId]);
 
