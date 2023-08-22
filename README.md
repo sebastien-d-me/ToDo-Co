@@ -6,6 +6,7 @@ Enhance an existing ToDo &amp; Co app
 2. Nécessite PHP : https://www.apachefriends.org/fr/index.html
 2. Nécessite Composer : https://getcomposer.org/
 3. Nécessite Symfony : https://symfony.com/download
+4. Nécessite NPM : https://nodejs.org/en/download
 
 ### Installation
 1. Configurez le fichier .env
