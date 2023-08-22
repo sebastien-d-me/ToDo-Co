@@ -28,13 +28,31 @@ class UserController extends AbstractController
 
 
     #[Route("/users/create", name: "users_create")]
-    public function new(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
-    {
+    public function new(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $usersRepository): Response
+    {       
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $checkUsername = $usersRepository->findOneBy([
+                "username" => $form->get("username")->getData()
+            ]);
+
+            $checkMail = $usersRepository->findOneBy([
+                "email" => $form->get("email")->getData()
+            ]);
+
+            if($checkUsername !== NULL) {
+                $this->addFlash("danger", "Le nom d'utilisateur existe déjà.");
+                return $this->redirectToRoute("users_create");
+            }
+
+            if($checkMail !== NULL) {
+                $this->addFlash("danger", "L'email existe déjà.");
+                return $this->redirectToRoute("users_create");
+            }
+
             $role = $form->get("role")->getData();
             $password = $userPasswordHasher->hashPassword($user, $form->get("password")->getData());
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
@@ -67,6 +85,24 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $checkUsername = $usersRepository->findOneBy([
+                "username" => $form->get("username")->getData()
+            ]);
+
+            $checkMail = $usersRepository->findOneBy([
+                "email" => $form->get("email")->getData()
+            ]);
+
+            if($checkUsername !== NULL) {
+                $this->addFlash("danger", "Le nom d'utilisateur existe déjà.");
+                return $this->redirectToRoute("users_edit", ["id" => $userID]);
+            }
+
+            if($checkMail !== NULL) {
+                $this->addFlash("danger", "L'email existe déjà.");
+                return $this->redirectToRoute("users_edit", ["id" => $userID]);
+            }
+
             $role = $form->get("role")->getData();
             $password = $userPasswordHasher->hashPassword($user, $form->get("password")->getData());
             $currentDate = \DateTimeImmutable::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
