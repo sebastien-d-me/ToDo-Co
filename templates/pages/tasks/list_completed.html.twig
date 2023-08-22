@@ -29,7 +29,7 @@
                     <button class="btn btn-info" type="button">Consulter la liste des tâches à faire</button>
                 </a>
             </div>
-            <div class="col-auto mb-2 ms-auto">
+            <div class="col-auto mb-2 mt-2 mt-md-0">
                 <a href="{{ path('tasks_create') }}">
                     <button class="btn btn-secondary">Créer une tâche</button>
                 </a>
@@ -40,8 +40,8 @@
             {% for row in tasks | batch(3) %}
                 <div class="mb-4 row">
                     {% for task in row %}
-                        <div class="col-lg-4 col-md-12" id="{{ loop.index }}">
-                            <div class="img-thumbnail h-75 overflow-auto p-2">
+                        <div class="col-lg-4 col-md-12 mb-3" id="{{ loop.index }}">
+                            <div class="img-thumbnail overflow-auto p-2">
                                 <div class="d-flex justify-content-between">
                                     <a class="fs-5 text-decoration-none" href="{{ path('tasks_edit', {'taskId': task.id, 'type': 'completed'}) }}">
                                         <span>{{ task.title }}</span>
@@ -50,7 +50,7 @@
                                 </div>
                                 <p class="mb-2 mt-4">{{ task.content }}</p>
                             </div>
-                            <div class="d-flex h-25 justify-content-end mt-1 row">
+                            <div class="d-flex flex-column gap-2 mt-1">
                                 {% if app.user == task.user or is_granted("ROLE_ADMIN") %}
                                     <div class="col-3">
                                         <a href="{{ path('tasks_delete', {'taskId': task.id, 'type': 'uncompleted'}) }}">
