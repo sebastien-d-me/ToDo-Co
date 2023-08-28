@@ -19,4 +19,8 @@ Enhance an existing ToDo &amp; Co app
 8. Effectuez la commande : `php bin/console doctrine:fixtures:load` à la racine du projet
 9. Lancez le projet avec la commande : `symfony serve`
 
+### Comptes (fixtures)
+1. User : Azerty123
+2. Admin : Azerty123
+
 ### Le rapport de couverture est déjà présent dans le dossier public/test-coverage.
