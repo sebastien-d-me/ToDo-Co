@@ -24,3 +24,13 @@ Enhance an existing ToDo &amp; Co app
 2. Admin : Azerty123
 
 ### Le rapport de couverture est déjà présent dans le dossier public/test-coverage.
+
+### Compétences acquises
+- Implémenter de nouvelles fonctionnalités au sein d’une application déjà initiée en suivant un plan de collaboration clair
+- Lire et retranscrire le fonctionnement d’un morceau de code écrit par d’autres développeurs
+- Mettre en œuvre des tests unitaires et fonctionnels
+- Produire un rapport de l’exécution des tests
+- Analyser la qualité de code et la performance d’une application
+- Établir un plan pour réduire la dette technique d’une application
+- Fournir des patchs correctifs lorsque les tests le suggèrent
+- Proposer une série d’améliorations
